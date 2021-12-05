@@ -121,10 +121,10 @@ char* show_type(void)       //获取已录入消费品类
 			i++;	
 	    }      
 	}
-    for(j = 0;j < i;j++)
+        for(j = 0;j < i;j++)
 	{
-		strcat(all,types[j]);
-    	strcat(all," ");
+           strcat(all,types[j]);
+    	   strcat(all," ");
 	}
 	return all;
 }
