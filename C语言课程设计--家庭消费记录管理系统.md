@@ -68,6 +68,7 @@ if((fp=fopen("fee.dat","r+"))==NULL)
 {
     fp=fopen("fee.dat","w+");
     fclose(fp);
+    head = NULL;
     return;
 }
 //判断fee.dat是否为空，若为空则放弃读取
@@ -274,7 +275,7 @@ void quicksort_amount_asc(Node *HEAD,Node *END)//单链表快速排序函数实�
 		if(HEAD == NULL || HEAD == END)
 		   return;
 		Node *beforep = HEAD;
-		Node p = HEAD->next;
+		Node *p = HEAD->next;
 		while(p != END)
 		{
 			if(p->consume.amount < HEAD->consume.amount)
