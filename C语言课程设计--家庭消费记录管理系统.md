@@ -231,7 +231,7 @@ void del_precise(void);     //精准删除一条消费记录
 
 
 ## 四、修改函数
-思路：“精准修改”，筛选出消费记录后用录入函数的方法修改该节点，然后用存储函数存入fee.dat
+思路：“精准修改”，筛选出消费记录后用录入函数的方法修改该节点，然后用存储函数存入fee.dat.
 同精准删除：1）每次筛选后，用查询函数的方法显示一次已筛选的消费记录；2）随时放弃修改
 
 ## 五、排序函数
@@ -274,7 +274,7 @@ void quicksort_amount_asc(Node *HEAD,Node *END)//单链表快速排序函数实�
 		if(HEAD == NULL || HEAD == END)
 		   return;
 		Node *beforep = HEAD;
-		p = HEAD->next;
+		Node p = HEAD->next;
 		while(p != END)
 		{
 			if(p->consume.amount < HEAD->consume.amount)
@@ -294,7 +294,7 @@ void quicksort_amount_asc(Node *HEAD,Node *END)//单链表快速排序函数实�
 		quicksort_amount_asc(beforep->next,END);  
 	}
 	
-	Node *end = head,*start = head;
+    Node *end = head,*start = head;
     while(end != NULL)
        end = end->next;//找到链表末尾 
     quicksort_amount_asc(start,end);
