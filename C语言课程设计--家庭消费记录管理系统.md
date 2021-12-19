@@ -1,7 +1,8 @@
 # C语言课程设计--家庭消费记录管理系统
 ## 多文件编程
-.h放声明，.c放函数并include<.h>
+.h放声明，.c放函数并include ".h"
 ## 设置链表
+采用无头结点单链表
 ```C
 int n = 0;//已录入消费记录的数量(链表中项的个数) 
 
@@ -24,7 +25,7 @@ typedef struct Node
 
 Node *head,*p,*p1,*p2;
 ```
-## 解决fputs会读取\n的问题
+## 解决fgets会读取\n的问题
 参考 ：《C primer plus》 s_gets函数
 ```C
 void s_gets(char *st,int k)
@@ -234,7 +235,64 @@ void del_precise(void);     //精准删除一条消费记录
 同精准删除：1）每次筛选后，用查询函数的方法显示一次已筛选的消费记录；2）随时放弃修改
 
 ## 五、排序函数
-施工中
+全部采用单链表快速排序
+```C
+//排序函数
+void sort(void);
+void sort_date(void);         //按日期排序
+void sort_date_desc(void);    //按日期排序：降序
+void sort_date_asc(void);     //按日期排序：升序 
+void sort_amount(void);       //按交易金额排序
+void sort_amount_desc(void);  //按交易金额排序：降序 
+void sort_amount_asc(void);   //按交易金额排序：升序 
+```
+### 单链表快速排序原理：
+设置两个指针i与j，i初始时指向头结点(i = head)，j初始时指向头结点后一个结点(j = head->next)。设定i指向的元素(也就是头结点)为基准数字(key)。
+具体算法：
+(升序)在一趟排序之中，最终目的是把比基准数字小的数，移动到前面。
+如果j指向的值大于基准数字：
+j = j->next;
+如果i指向的值小于基准数字:
+i = i->next;
+swap(i,j);//交换i和j指向的值
+j = j->next;
+当j指向NULL时，也就是到达链表末尾时：
+swap(i,key);//交换头结点(也就是key)与i指向的值
+此时可以发现，i左边的值都小于key，右边的值都大于key，然后再对左边和右边的值分别排序(递归调用)，直到所有元素有序。
+以"按交易金额排序：升序"为例：
+
+```C
+void quicksort_amount_asc(Node *HEAD,Node *END)//单链表快速排序函数实现 
+	{
+		Consume temp;
+		if(HEAD == NULL || HEAD == END)
+		   return;
+		Node *beforep = HEAD;
+		p = HEAD->next;
+		while(p != END)
+		{
+			if(p->consume.amount < HEAD->consume.amount)
+			{
+				beforep = beforep->next;
+				temp = beforep->consume;
+				beforep->consume = p->consume;
+				p->consume = temp;
+			}
+			p = p->next;
+		} 
+		temp = HEAD->consume;
+		HEAD->consume = beforep->consume;
+		beforep->consume = temp;
+		//递归调用 
+		quicksort_amount_asc(HEAD,beforep);
+		quicksort_amount_asc(beforep->next,END);  
+	}
+	
+	Node *end = head,*start = head;
+    while(end != NULL)
+       end = end->next;//找到链表末尾 
+    quicksort_amount_asc(start,end);
+```
 ## 六、统计函数
 思路：遍历链表，消费金额相加
 ```C
